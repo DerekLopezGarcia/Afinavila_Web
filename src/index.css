@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Skyline';
+  src: url('/fonts/Skyline.ttf') format('truetype');
+  font-display: swap;
+}
+
+@theme {
+  --color-primary: #755b0b;
+  --color-primary-light: #a07d15;
+  --color-primary-dark: #4a3907;
+  --color-primary-hover: #8b6d0e;
+  --color-surface: #fff8f1;
+  --color-surface-dark: #f5ead8;
+  --color-accent: #1a1a2e;
+  --color-accent-light: #2d2d4a;
+  --color-bg-gray: #f3f4f6;
+  --color-bg-gray-dark: #e5e7eb;
+  --color-text-gray: #4b5563;
+  --color-text-gray-light: #9ca3af;
+  --color-text-muted: #6b7280;
+  --color-footer: #111827;
+  --color-footer-light: #1f2937;
+  --color-success: #059669;
+  --color-error: #dc2626;
+}
+
+html {
+  scroll-behavior: smooth;
+}
