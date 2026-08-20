@@ -172,7 +172,7 @@ export default function AdminComunidad() {
             </div>
             <div className="flex-1 bg-gray-100">
               <iframe
-                src={adminGetPdfUrl(data.claveAcceso, pdfOpen.id)}
+                src={adminGetPdfUrl(data.id, pdfOpen.id)}
                 className="w-full h-full border-0"
                 title={pdfOpen.nombreMostrar || pdfOpen.nombre}
               />
