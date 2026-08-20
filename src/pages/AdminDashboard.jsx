@@ -64,7 +64,7 @@ export default function AdminDashboard() {
               {col.map((c) => (
                 <button
                   key={c.id}
-                  onClick={() => navigate(`/admin/comunidad/${c.claveAcceso}`)}
+                  onClick={() => navigate(`/admin/comunidad/${encodeURIComponent(c.claveAcceso)}`)}
                   className="w-full bg-white rounded-xl border border-gray-200 px-4 py-3 text-left hover:shadow-lg hover:border-primary/30 transition-all group flex items-center gap-3"
                 >
                   {/* Número de comunidad grande */}

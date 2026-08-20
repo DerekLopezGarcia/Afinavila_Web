@@ -19,11 +19,11 @@ export async function login(codigoAcceso) {
 }
 
 export async function getComunidad(codigoAcceso) {
-  return request(`/comunidad/${codigoAcceso}`)
+  return request(`/comunidad/${encodeURIComponent(codigoAcceso)}`)
 }
 
 export async function getArchivosByComunidad(codigoAcceso) {
-  return request(`/archivos/${codigoAcceso}`)
+  return request(`/archivos/${encodeURIComponent(codigoAcceso)}`)
 }
 
 export async function getMe() {
