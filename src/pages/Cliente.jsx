@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { getMe, getArchivosSession, getPdfUrlSession } from '../services/api'
+import { getMe, getArchivosSession, getPdfUrlSession, logout } from '../services/api'
 
 const BASE_TABS = ['Actas', 'Evoluciones anuales', 'Extractos bancarios', 'Otros']
 
@@ -33,14 +33,19 @@ export default function Cliente() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [pdfOpen, setPdfOpen] = useState(null)
+  const isMobile = useMemo(() => 'ontouchstart' in window || navigator.maxTouchPoints > 0, [])
+
+  const openPdf = (archivo) => {
+    if (isMobile) {
+      // En movil: abrir en nueva pestana (evita problemas con iframes + PDF)
+      window.open(getPdfUrlSession(archivo.id), '_blank', 'noopener,noreferrer')
+    } else {
+      // En desktop: modal con iframe
+      setPdfOpen(archivo)
+    }
+  }
 
   useEffect(() => {
-    if (!sessionStorage.getItem('authenticated')) {
-      navigate('/clientes', { replace: true })
-      return
-    }
-    setLoading(true)
-    setError('')
     Promise.all([
       getMe().then((c) => {
         setComunidadNombre(c.nombre)
@@ -49,6 +54,13 @@ export default function Cliente() {
       getArchivosSession().then(setArchivos).catch(() => setError('Error al cargar los documentos.')),
     ]).finally(() => setLoading(false))
   }, [navigate])
+
+  const handleLogout = async () => {
+    try { await logout() } catch { /* La sesión puede haber expirado. */ }
+    sessionStorage.removeItem('authenticated')
+    sessionStorage.removeItem('comunidad_nombre')
+    navigate('/clientes', { replace: true })
+  }
 
   const hasLecturas = archivos.some((a) => a.categoria === 'Lecturas')
   const tabs = hasLecturas ? [...BASE_TABS, 'Lecturas'] : BASE_TABS
@@ -70,6 +82,9 @@ export default function Cliente() {
           <p className="text-white/60 text-sm mt-1">
             {archivos.length} documento{archivos.length !== 1 ? 's' : ''}
           </p>
+          <button onClick={handleLogout} className="mt-3 text-sm text-white/80 hover:text-white underline">
+            Cerrar sesión
+          </button>
         </div>
       </div>
 
@@ -116,8 +131,8 @@ export default function Cliente() {
               return (
                 <button
                   key={a.id}
-                  onClick={() => setPdfOpen(a)}
-                  className="bg-white rounded-xl border border-gray-200 p-5 text-center hover:shadow-lg hover:border-primary/30 transition-all group cursor-pointer"
+                  onClick={() => openPdf(a)}
+                  className="w-full bg-white rounded-xl border border-gray-200 p-5 text-center hover:shadow-lg hover:border-primary/30 transition-all group cursor-pointer"
                 >
                   <div className="mb-3 flex justify-center">
                     <img

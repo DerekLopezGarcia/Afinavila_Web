@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { adminGetComunidades } from '../services/api'
+import { adminGetComunidades, adminLogout } from '../services/api'
 
 export default function AdminDashboard() {
   const navigate = useNavigate()
@@ -8,10 +8,6 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!sessionStorage.getItem('admin_authenticated')) {
-      navigate('/admin/login', { replace: true })
-      return
-    }
     adminGetComunidades()
       .then(setComunidades)
       .catch(() => navigate('/admin/login', { replace: true }))
@@ -49,8 +45,8 @@ export default function AdminDashboard() {
             <p className="text-text-gray text-sm mt-0.5">{comunidades.length} comunidades</p>
           </div>
           <button
-            onClick={() => {
-              sessionStorage.removeItem('admin_authenticated')
+            onClick={async () => {
+              try { await adminLogout() } catch { /* Sesión ya expirada. */ }
               navigate('/admin/login', { replace: true })
             }}
             className="text-sm text-text-gray hover:text-accent transition-colors"

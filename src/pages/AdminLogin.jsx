@@ -15,7 +15,6 @@ export default function AdminLogin() {
     try {
       const res = await adminLogin(password)
       if (res.role === 'admin') {
-        sessionStorage.setItem('admin_authenticated', 'true')
         navigate('/admin', { replace: true })
       }
     } catch {

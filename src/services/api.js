@@ -35,7 +35,7 @@ export async function getArchivosSession() {
 }
 
 export function getPdfUrlSession(archivoId) {
-  return `${API_BASE}/archivo/pdf/session/${archivoId}`
+  return `${API_BASE}/archivo/pdf/session/${encodeURIComponent(archivoId)}`
 }
 
 export function getPdfUrl(codigoAcceso, archivoId) {
@@ -48,6 +48,14 @@ export async function adminLogin(password) {
     method: 'POST',
     body: JSON.stringify({ password }),
   })
+}
+
+export async function logout() {
+  return request('/auth/logout', { method: 'POST' })
+}
+
+export async function adminLogout() {
+  return request('/admin/logout', { method: 'POST' })
 }
 
 export async function adminGetMe() {
@@ -63,5 +71,5 @@ export async function adminGetComunidad(codigoAcceso) {
 }
 
 export async function adminGetPdfUrl(codigoAcceso, archivoId) {
-  return `${API_BASE}/archivo/pdf/${encodeURIComponent(codigoAcceso)}/${archivoId}`
+  return `${API_BASE}/admin/archivo/pdf/${encodeURIComponent(codigoAcceso)}/${encodeURIComponent(archivoId)}`
 }
