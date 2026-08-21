@@ -32,6 +32,8 @@ export default function AdminComunidad() {
   const [error, setError] = useState(null)
   const [tab, setTab] = useState('Actas')
   const [pdfOpen, setPdfOpen] = useState(null)
+  const [pdfSrc, setPdfSrc] = useState(null)
+  const [pdfLoadError, setPdfLoadError] = useState(null)
 
   useEffect(() => {
     adminGetComunidad(codigo)
@@ -39,6 +41,28 @@ export default function AdminComunidad() {
       .catch((err) => setError(err.message || 'Error al cargar la comunidad'))
       .finally(() => setLoading(false))
   }, [codigo, navigate])
+
+  useEffect(() => {
+    if (!pdfOpen || !data) return undefined
+    let active = true
+    let objectUrl
+    fetch(adminGetPdfUrl(data.id, pdfOpen.id), { credentials: 'include' })
+      .then((response) => {
+        if (!response.ok) throw new Error(`Error ${response.status}`)
+        return response.blob()
+      })
+      .then((blob) => {
+        objectUrl = URL.createObjectURL(blob)
+        if (active) setPdfSrc(objectUrl)
+      })
+      .catch((err) => {
+        if (active) setPdfLoadError(err.message || 'No se pudo cargar el PDF')
+      })
+    return () => {
+      active = false
+      if (objectUrl) URL.revokeObjectURL(objectUrl)
+    }
+  }, [data, pdfOpen])
 
   if (loading) {
     return (
@@ -161,7 +185,7 @@ export default function AdminComunidad() {
           >
             <div className="flex items-center gap-3 px-5 py-3 border-b border-gray-100 bg-accent text-white shrink-0">
               <button
-                onClick={() => setPdfOpen(null)}
+                onClick={() => { setPdfOpen(null); setPdfSrc(null); setPdfLoadError(null) }}
                 className="p-1 hover:bg-white/10 rounded-lg transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -172,10 +196,15 @@ export default function AdminComunidad() {
             </div>
             <div className="flex-1 bg-gray-100">
               <iframe
-                src={adminGetPdfUrl(data.id, pdfOpen.id)}
+                src={pdfSrc || undefined}
                 className="w-full h-full border-0"
                 title={pdfOpen.nombreMostrar || pdfOpen.nombre}
               />
+              {!pdfSrc && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-text-gray">
+                  {pdfLoadError || 'Cargando documento...'}
+                </div>
+              )}
             </div>
           </div>
         </div>
