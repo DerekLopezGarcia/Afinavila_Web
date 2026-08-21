@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { adminGetComunidad, getPdfUrl } from '../services/api'
-
-function encodePath(part) {
-  return encodeURIComponent(part)
-}
+import { adminGetComunidad, adminGetPdfUrl } from '../services/api'
 
 const BASE_TABS = ['Actas', 'Evoluciones anuales', 'Extractos bancarios', 'Otros']
 
@@ -38,10 +34,6 @@ export default function AdminComunidad() {
   const [pdfOpen, setPdfOpen] = useState(null)
 
   useEffect(() => {
-    if (!sessionStorage.getItem('admin_authenticated')) {
-      navigate('/admin/login', { replace: true })
-      return
-    }
     adminGetComunidad(codigo)
       .then((d) => setData(d))
       .catch((err) => setError(err.message || 'Error al cargar la comunidad'))
@@ -180,7 +172,7 @@ export default function AdminComunidad() {
             </div>
             <div className="flex-1 bg-gray-100">
               <iframe
-                src={getPdfUrl(encodeURIComponent(data.claveAcceso), pdfOpen.id)}
+                src={adminGetPdfUrl(data.id, pdfOpen.id)}
                 className="w-full h-full border-0"
                 title={pdfOpen.nombreMostrar || pdfOpen.nombre}
               />

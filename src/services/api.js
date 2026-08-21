@@ -18,14 +18,6 @@ export async function login(codigoAcceso) {
   })
 }
 
-export async function getComunidad(codigoAcceso) {
-  return request(`/comunidad/${codigoAcceso}`)
-}
-
-export async function getArchivosByComunidad(codigoAcceso) {
-  return request(`/archivos/${codigoAcceso}`)
-}
-
 export async function getMe() {
   return request('/auth/me')
 }
@@ -35,11 +27,7 @@ export async function getArchivosSession() {
 }
 
 export function getPdfUrlSession(archivoId) {
-  return `${API_BASE}/archivo/pdf/session/${archivoId}`
-}
-
-export function getPdfUrl(codigoAcceso, archivoId) {
-  return `${API_BASE}/archivo/pdf/${codigoAcceso}/${archivoId}`
+  return `${API_BASE}/archivo/pdf/session/${encodeURIComponent(archivoId)}`
 }
 
 // === Admin API ===
@@ -48,6 +36,14 @@ export async function adminLogin(password) {
     method: 'POST',
     body: JSON.stringify({ password }),
   })
+}
+
+export async function logout() {
+  return request('/auth/logout', { method: 'POST' })
+}
+
+export async function adminLogout() {
+  return request('/admin/logout', { method: 'POST' })
 }
 
 export async function adminGetMe() {
@@ -63,5 +59,5 @@ export async function adminGetComunidad(codigoAcceso) {
 }
 
 export async function adminGetPdfUrl(codigoAcceso, archivoId) {
-  return `${API_BASE}/archivo/pdf/${encodeURIComponent(codigoAcceso)}/${archivoId}`
+  return `${API_BASE}/admin/comunidad/${encodeURIComponent(codigoAcceso)}/archivo/pdf/${encodeURIComponent(archivoId)}`
 }
