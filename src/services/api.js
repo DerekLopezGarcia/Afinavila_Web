@@ -58,6 +58,6 @@ export async function adminGetComunidad(codigoAcceso) {
   return request(`/admin/comunidad/${encodeURIComponent(codigoAcceso)}`)
 }
 
-export async function adminGetPdfUrl(codigoAcceso, archivoId) {
+export function adminGetPdfUrl(codigoAcceso, archivoId) {
   return `${API_BASE}/admin/comunidad/${encodeURIComponent(codigoAcceso)}/archivo/pdf/${encodeURIComponent(archivoId)}`
 }
