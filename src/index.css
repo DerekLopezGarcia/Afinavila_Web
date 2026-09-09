@@ -29,3 +29,193 @@
 html {
   scroll-behavior: smooth;
 }
+
+.google-play-sticker {
+  position: absolute;
+  right: clamp(1rem, 4vw, 3rem);
+  top: 2rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: min(32rem, calc(100% - 2rem));
+  padding: 1rem 1.1rem;
+  color: #1a1a2e;
+  background: #fffdf8;
+  border: 1px solid rgba(160, 125, 21, 0.35);
+  border-radius: 1.15rem;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.24);
+  text-align: left;
+}
+
+.google-play-sticker__icon {
+  flex: 0 0 auto;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 0.6rem;
+  background: #f5ead8;
+  border-radius: 0.75rem;
+}
+
+.google-play-sticker__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.google-play-sticker__copy {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.1rem;
+  line-height: 1.2;
+}
+
+.google-play-sticker__eyebrow {
+  color: #755b0b;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.google-play-sticker__copy strong {
+  font-size: 1rem;
+}
+
+.google-play-sticker__copy span:last-child {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.google-play-sticker__link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.9rem;
+  color: white;
+  background: #755b0b;
+  border-radius: 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.google-play-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.google-play-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 25, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.google-play-modal__dialog {
+  position: relative;
+  width: min(30rem, 100%);
+  padding: 2.25rem 2rem 1.75rem;
+  color: #1a1a2e;
+  background: #fffdf8;
+  border: 1px solid rgba(160, 125, 21, 0.35);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.google-play-modal__close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.85rem;
+  width: 2rem;
+  height: 2rem;
+  color: #6b7280;
+  background: transparent;
+  border: 0;
+  font-size: 1.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.google-play-modal__icon {
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0 auto 1rem;
+  padding: 0.8rem;
+  background: #f5ead8;
+  border-radius: 1.25rem;
+}
+
+.google-play-modal__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.google-play-modal__dialog h2 {
+  margin: 0.35rem 0 0.7rem;
+  font-size: clamp(1.45rem, 4vw, 2rem);
+}
+
+.google-play-modal__dialog > p:not(.google-play-sticker__eyebrow) {
+  margin: 0 auto;
+  max-width: 24rem;
+  color: #4b5563;
+  line-height: 1.55;
+}
+
+.google-play-modal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.google-play-modal__secondary,
+.google-play-modal__primary {
+  padding: 0.75rem 1rem;
+  border-radius: 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.google-play-modal__secondary {
+  color: #4b5563;
+  background: transparent;
+  border: 1px solid #d1d5db;
+}
+
+.google-play-modal__primary {
+  color: white;
+  background: #755b0b;
+}
+
+.google-play-modal__primary:hover,
+.google-play-modal__secondary:hover {
+  filter: brightness(1.08);
+}
+
+.google-play-sticker__link:hover {
+  background: #8b6d0e;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .google-play-sticker {
+    position: relative;
+    right: auto;
+    top: auto;
+    margin: -1rem auto 1.5rem;
+  }
+}

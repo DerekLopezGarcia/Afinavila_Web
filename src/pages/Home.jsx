@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import GooglePlaySticker from '../components/GooglePlaySticker'
 
 const servicios = [
   {
@@ -74,6 +75,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
+        <GooglePlaySticker />
       </section>
 
       {/* Servicios */}
